@@ -1,0 +1,15 @@
+{
+  "$schema": "vendor/infection/infection/resources/schema.json",
+  "source": {
+    "directories": [
+      "src"
+    ]
+  },
+  "threads": "max",
+  "mutators": {
+    "@default": true
+  },
+  logs: {
+    "html": "temp/infection.html"
+  }
+}
