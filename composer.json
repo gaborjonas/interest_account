@@ -1,0 +1,17 @@
+{
+    "name": "chip/interest_account",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Chip\\InterestAccount\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gabor Jonas",
+            "email": "gaborjonas8813@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
