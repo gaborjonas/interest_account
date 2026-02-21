@@ -25,7 +25,7 @@
         }
     },
     "scripts": {
-        "all": [
+        "check": [
             "lint",
             "stan",
             "test",
@@ -38,7 +38,7 @@
         "mutation": "infection"
     },
     "scripts-descriptions": {
-        "all": "Run all quality assurance checks (lint, stan, test, mutation)",
+        "check": "Run all quality assurance checks (lint, stan, test, mutation)",
         "lint:check": "Check code style without fixing issues",
         "lint": "Fix code style issues automatically",
         "stan": "Run static analysis with PHPStan",
