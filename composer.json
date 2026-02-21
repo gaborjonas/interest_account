@@ -9,7 +9,11 @@
         }
     ],
     "require": {
-        "php": "8.5.*"
+        "php": "8.5.*",
+        "ext-uuid": "*",
+        "ext-bcmath": "*",
+        "symfony/http-client": "^8.0",
+        "symfony/uid": "^8.0"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.50",
@@ -24,6 +28,9 @@
         "psr-4": {
             "Chip\\InterestAccount\\": "src/"
         }
+    },
+    "replace": {
+        "symfony/polyfill-uuid": "*"
     },
     "autoload-dev": {
         "psr-4": {
@@ -48,7 +55,8 @@
         "lint:check": "php-cs-fixer check --diff",
         "mutation": "infection",
         "stan": "phpstan analyze",
-        "test": "phpunit"
+        "test": "phpunit",
+        "test:coverage": "XDEBUG_MODE=coverage phpunit --coverage-html ./temp/phpunit/coverage --cache-directory ./temp/phpunit/cache"
     },
     "scripts-descriptions": {
         "check": "Run all quality assurance checks (lint, stan, test, mutation)",

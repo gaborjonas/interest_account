@@ -1,4 +1,4 @@
-.PHONY: help dev-setup docker-up composer-install docker-down shell install lint lint-check stan test mutation all clean
+.PHONY: help dev-setup docker-up composer-install docker-down shell install lint lint-check stan test test-coverage mutation all clean
 
 container-command := docker compose exec interest-account-lib
 
@@ -10,8 +10,9 @@ help:
 	@echo "  lint-check    - Check code style without fixing"
 	@echo "  stan          - Run PHPStan static analysis"
 	@echo "  test          - Run PHPUnit tests"
+	@echo "  test-coverage - Run PHPUnit tests with coverage"
 	@echo "  mutation      - Run Infection mutation testing"
-	@echo "  check           - Run all quality checks"
+	@echo "  check         - Run all quality checks"
 	@echo "  clean         - Install production dependencies only"
 	@echo "  shell         - Open bash shell in container"
 	@echo "  docker-up     - Start Docker containers"
@@ -46,6 +47,9 @@ stan:
 test:
 	$(container-command) composer test
 
+test-coverage:
+	$(container-command) composer test:coverage
+
 mutation:
 	$(container-command) composer mutation
 
@@ -53,6 +57,5 @@ check:
 	$(container-command) composer check
 
 clean:
-	rm -rf temp
-	rm -rf vendor
+	rm -rf ./temp && rm -rf ./vendor
 

@@ -2,4 +2,4 @@ parameters:
 	level: max
 	paths:
 		- src
-	tmpDir: temp
+	tmpDir: temp/phpstan
