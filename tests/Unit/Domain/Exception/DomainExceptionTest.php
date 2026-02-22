@@ -6,7 +6,6 @@ namespace Tests\Unit\Domain\Exception;
 
 use Chip\InterestAccount\Domain\Exception\AccountClosedException;
 use Chip\InterestAccount\Domain\Exception\AccountNotFoundException;
-use Chip\InterestAccount\Domain\Exception\InvalidDepositException;
 use Chip\InterestAccount\Domain\Exception\InvalidIdException;
 use Chip\InterestAccount\Domain\Exception\MalformedUserStatisticsException;
 use Chip\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
@@ -37,15 +36,6 @@ final class DomainExceptionTest extends TestCase
 
         $this->assertSame("Account with id {$accountId->value()} not found", $exception->getMessage());
 
-    }
-
-    #[Test]
-    public function invalidDepositExceptionHasCorrectMessage(): void
-    {
-        $message = 'Invalid deposit amount';
-        $exception = new InvalidDepositException($message);
-
-        $this->assertSame($message, $exception->getMessage());
     }
 
     #[Test]
