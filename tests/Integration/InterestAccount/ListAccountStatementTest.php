@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Integration\InterestAccount;
@@ -8,9 +9,6 @@ use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
 use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
 use Chip\InterestAccount\Domain\Enum\AccountStatus;
 use Chip\InterestAccount\Domain\Enum\TransactionType;
-use Chip\InterestAccount\Domain\Event\AccountOpened;
-use Chip\InterestAccount\Domain\Event\DepositMade;
-use Chip\InterestAccount\Domain\ValueObject\InterestRate;
 use Chip\InterestAccount\Domain\ValueObject\UserId;
 use Chip\InterestAccount\Infrastructure\EventStore\EventStore;
 use Chip\InterestAccount\Infrastructure\Projector\EventProjector;
@@ -23,10 +21,10 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
-final class DepositTest extends TestCase
+final class ListAccountStatementTest extends TestCase
 {
     #[Test]
-    public function accountOpened(): void
+    public function listAccountStatement(): void
     {
         $userId = UserId::generate();
         $stasApiClient = new StatsApiClient(
@@ -63,8 +61,8 @@ final class DepositTest extends TestCase
                 $eventProjector,
             ),
             new ListAccountStatementHandler(
-              $accountRepository,
-              $transactionRepository,
+                $accountRepository,
+                $transactionRepository,
             ),
         );
 
@@ -87,32 +85,12 @@ final class DepositTest extends TestCase
             amount: '33.333333',
         );
 
-        $this->assertSame('133.333333', $account->getBalance()->value());
+        $statement = $service->listAccountStatement($account->getAggregateId()->value());
 
-        $events = $eventStore->load($account->getAggregateId()->value());
-
-        $this->assertCount(3, $events);
-        $this->assertInstanceOf(AccountOpened::class, $events[0]);
-        $this->assertEquals($account->getAggregateId(), $events[0]->accountId);
-        $this->assertEquals($userId, $events[0]->userId);
-        $this->assertEquals(new InterestRate('1.02'), $events[0]->interestRate);
-        $this->assertSame(AccountStatus::Open, $events[0]->status);
-
-        $this->assertInstanceOf(DepositMade::class, $events[1]);
-        $this->assertEquals($account->getAggregateId(), $events[1]->accountId);
-        $this->assertEquals('100', $events[1]->amount->value());
-
-        $this->assertInstanceOf(DepositMade::class, $events[2]);
-        $this->assertEquals($account->getAggregateId(), $events[2]->accountId);
-        $this->assertEquals('33.333333', $events[2]->amount->value());
-
-        $transactions = $transactionRepository->findByAccountId($account->getAggregateId());
-
-        $this->assertCount(2, $transactions);
-        $this->assertSame(TransactionType::Deposit, $transactions[0]->type);
-        $this->assertSame('100', $transactions[0]->amount->value());
-
-        $this->assertSame(TransactionType::Deposit, $transactions[1]->type);
-        $this->assertSame('33.333333', $transactions[1]->amount->value());
+        $this->assertCount(2, $statement);
+        $this->assertSame(TransactionType::Deposit, $statement[0]->type);
+        $this->assertSame('100', $statement[0]->amount->value());
+        $this->assertSame(TransactionType::Deposit, $statement[1]->type);
+        $this->assertSame('33.333333', $statement[1]->amount->value());
     }
 }

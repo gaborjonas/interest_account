@@ -8,12 +8,10 @@ use Chip\InterestAccount\Application\Command\Deposit\DepositCommand;
 use Chip\InterestAccount\Application\Command\Deposit\DepositHandler;
 use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountCommand;
 use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
-use Chip\InterestAccount\Domain\Exception\AccountClosedException;
-use Chip\InterestAccount\Domain\Exception\AccountNotFoundException;
-use Chip\InterestAccount\Domain\Exception\InvalidDepositException;
-use Chip\InterestAccount\Domain\Exception\InvalidIdException;
-use Chip\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
-use Chip\InterestAccount\Domain\Exception\UserStatisticsException;
+use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
+use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementQuery;
+use Chip\InterestAccount\Domain\Exception\DomainException;
+use Chip\InterestAccount\Domain\Projection\Transaction;
 use Chip\InterestAccount\Domain\ValueObject\AccountId;
 use Chip\InterestAccount\Domain\ValueObject\Money;
 use Chip\InterestAccount\Domain\ValueObject\UserId;
@@ -24,14 +22,13 @@ final readonly class InterestAccountService implements InterestAccountServiceInt
     public function __construct(
         private OpenAccountHandler $openAccountHandler,
         private DepositHandler $depositHandler,
+        private ListAccountStatementHandler $listAccountStatementHandler,
     )
     {
     }
 
     /**
-     * @throws UserAlreadyHasAccountException
-     * @throws UserStatisticsException
-     * @throws InvalidIdException
+     * @throws DomainException
      */
     public function openAccount(string $userId): Account
     {
@@ -41,10 +38,7 @@ final readonly class InterestAccountService implements InterestAccountServiceInt
     }
 
     /**
-     * @throws AccountNotFoundException
-     * @throws InvalidIdException
-     * @throws InvalidDepositException
-     * @throws AccountClosedException
+     * @throws DomainException
      */
     public function deposit(string $accountId, string $userId, string $amount): Account
     {
@@ -55,5 +49,16 @@ final readonly class InterestAccountService implements InterestAccountServiceInt
         );
 
         return $this->depositHandler->handle($command);
+    }
+
+    /**
+     * @return list<Transaction>
+     * @throws DomainException
+     */
+    public function listAccountStatement(string $accountId): array
+    {
+        $query = new ListAccountStatementQuery(AccountId::fromString($accountId));
+
+        return $this->listAccountStatementHandler->handle($query);
     }
 }

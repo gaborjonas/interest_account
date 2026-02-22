@@ -5,6 +5,7 @@ namespace Integration\InterestAccount;
 
 use Chip\InterestAccount\Application\Command\Deposit\DepositHandler;
 use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
+use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
 use Chip\InterestAccount\Domain\Enum\AccountStatus;
 use Chip\InterestAccount\Domain\Event\AccountOpened;
 use Chip\InterestAccount\Domain\ValueObject\InterestRate;
@@ -58,7 +59,11 @@ final class OpenInterestAccountTest extends TestCase
                 $accountRepository,
                 $eventStore,
                 $eventProjector,
-            )
+            ),
+            new ListAccountStatementHandler(
+                $accountRepository,
+                $transactionRepository,
+            ),
         );
 
         $account = $service->openAccount($userId->value());
