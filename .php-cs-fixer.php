@@ -1,6 +1,5 @@
 <?php
 
-
 declare(strict_types=1);
 
 use PhpCsFixer\Config;
@@ -34,7 +33,6 @@ return new Config()
         'modernize_types_casting' => true,
         'multiline_comment_opening_closing' => true,
         'multiline_promoted_properties' => true,
-        'native_constant_invocation' => true,
         'native_function_casing' => true,
         'native_type_declaration_casing' => true,
         'no_blank_lines_after_phpdoc' => true,
@@ -86,7 +84,11 @@ return new Config()
     ])
     ->setFinder(
         new Finder()
-            ->in(['src', 'tests'])
+            ->in([
+                'public',
+                'src',
+                'tests'
+            ])
             ->ignoreDotFiles(false)
             ->ignoreVCS(true)
     );

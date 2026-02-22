@@ -18,9 +18,9 @@ help:
 	@echo "  docker-up     - Start Docker containers"
 	@echo "  docker-down   - Stop Docker containers"
 
-dev-setup: clean docker-up composer-install
+dev-setup: clean docker-down docker-up composer-install
 
-run: clean
+run:
 	@docker compose up --build
 
 docker-up:
