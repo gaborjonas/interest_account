@@ -9,9 +9,9 @@
         }
     ],
     "require": {
-        "php": "8.5.*",
-        "ext-uuid": "*",
+        "php": "~8.5.0",
         "ext-bcmath": "*",
+        "ext-uuid": "*",
         "symfony/http-client": "^8.0",
         "symfony/uid": "^8.0"
     },
@@ -22,15 +22,15 @@
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^13.0"
     },
+    "replace": {
+        "symfony/polyfill-uuid": "*"
+    },
     "minimum-stability": "stable",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Chip\\InterestAccount\\": "src/"
         }
-    },
-    "replace": {
-        "symfony/polyfill-uuid": "*"
     },
     "autoload-dev": {
         "psr-4": {
@@ -46,10 +46,10 @@
     },
     "scripts": {
         "check": [
-            "lint",
-            "stan",
-            "test",
-            "mutation"
+            "@lint",
+            "@stan",
+            "@test",
+            "@mutation"
         ],
         "lint": "php-cs-fixer fix --diff",
         "lint:check": "php-cs-fixer check --diff",

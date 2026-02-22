@@ -1,5 +1,5 @@
 *
-!docker/prod/opcache.ini
+!docker
 !public
 !src
 !composer.json

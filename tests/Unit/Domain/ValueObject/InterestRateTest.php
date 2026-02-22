@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Domain\ValueObject;
 
 use Chip\InterestAccount\Domain\ValueObject\InterestRate;
+use Chip\InterestAccount\Domain\ValueObject\Money;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -52,5 +53,32 @@ final class InterestRateTest extends TestCase
     {
         $rate = new InterestRate('1.02');
         $this->assertSame('1.02', $rate->value());
+    }
+
+    #[Test]
+    public function calculateInterestWithExactlyOneCentPaysOut(): void
+    {
+        $interestRate = new InterestRate('1.0');
+        $balance = Money::fromString('100');
+        $pendingInterest = Money::fromString('0.01');
+
+        $result = $interestRate->calculateInterestForAmount($balance, $pendingInterest, '0');
+
+        $this->assertSame('0.01', $result['payoutAmount']->value());
+        $this->assertStringStartsWith('0.0', $result['pendingAmount']->value());
+        $this->assertTrue($result['pendingAmount']->isZero());
+    }
+
+    #[Test]
+    public function calculateInterestWithJustUnderOneCentDoesNotPayout(): void
+    {
+        $interestRate = new InterestRate('1.0');
+        $balance = Money::fromString('100');
+        $pendingInterest = Money::fromString('0.009999');
+
+        $result = $interestRate->calculateInterestForAmount($balance, $pendingInterest, '0');
+
+        $this->assertTrue($result['payoutAmount']->isZero());
+        $this->assertStringStartsWith('0.009999', $result['pendingAmount']->value());
     }
 }
