@@ -20,8 +20,11 @@ help:
 
 dev-setup: clean docker-up composer-install
 
+run: clean
+	@docker compose up --build
+
 docker-up:
-	@docker compose up -d --build
+	@docker compose -f compose.yml -f compose.dev.yml up --build -d
 
 docker-down:
 	@docker compose down --volumes --remove-orphans

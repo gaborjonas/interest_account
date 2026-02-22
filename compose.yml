@@ -1,17 +1,8 @@
 services:
   interest-account-lib:
     container_name: interest-account-lib
-    user: "${UID:-1000}:${GID:-1000}"
     pull_policy: always
     build:
       context: .
       dockerfile: Dockerfile
-      target: dev
-      args:
-        - USER_ID=${UID:-1000}
-        - GROUP_ID=${GID:-1000}
-    volumes:
-      - .:/app
-    command: sleep infinity
-    extra_hosts:
-      host.docker.internal: host-gateway
+      target: prod
