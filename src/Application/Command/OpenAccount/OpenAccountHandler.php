@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace Chip\InterestAccount\Application\Command\OpenAccount;
 
+use Chip\InterestAccount\Domain\EventStore\EventStoreInterface;
 use Chip\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
 use Chip\InterestAccount\Domain\Exception\UserStatisticsException;
 use Chip\InterestAccount\Domain\Aggregate\Account;
+use Chip\InterestAccount\Domain\Projector\EventProjectorInterface;
 use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
+use Chip\InterestAccount\Domain\Service\StatsApiClientInterface;
 use Chip\InterestAccount\Domain\ValueObject\AccountId;
 use Chip\InterestAccount\Domain\ValueObject\InterestRate;
-use Chip\InterestAccount\Infrastructure\EventStore\EventStore;
-use Chip\InterestAccount\Infrastructure\Projector\EventProjector;
-use Chip\InterestAccount\Infrastructure\Service\StatsApiClient;
 
 class OpenAccountHandler
 {
     public function __construct(
         private AccountRepositoryInterface $accountRepository,
-        private StatsApiClient $statsApiClient,
-        private EventStore $eventStore,
-        private EventProjector $eventProjector,
+        private StatsApiClientInterface $statsApiClient,
+        private EventStoreInterface $eventStore,
+        private EventProjectorInterface $eventProjector,
     ) {
     }
 
