@@ -6,12 +6,12 @@ use Chip\InterestAccount\Domain\Enum\TransactionType;
 use Chip\InterestAccount\Domain\Event\AccountOpened;
 use Chip\InterestAccount\Domain\Event\DepositMade;
 use Chip\InterestAccount\Domain\Event\DomainEvent;
+use Chip\InterestAccount\Domain\Event\InterestPaid;
 use Chip\InterestAccount\Domain\Projection\Account;
 use Chip\InterestAccount\Domain\Projection\Transaction;
 use Chip\InterestAccount\Domain\Projector\EventProjectorInterface;
 use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
 use Chip\InterestAccount\Domain\Repository\TransactionRepositoryInterface;
-use RuntimeException;
 
 final readonly class EventProjector implements EventProjectorInterface
 {
@@ -30,7 +30,8 @@ final readonly class EventProjector implements EventProjectorInterface
             match ($event::class) {
                 AccountOpened::class => $this->projectAccountOpened($event),
                 DepositMade::class => $this->projectDepositMade($event),
-                default => throw new RuntimeException('Unknown event type: ' . $event::class),
+                InterestPaid::class => $this->projectInterestPaid($event),
+                default => null,
             };
         }
     }
@@ -50,6 +51,17 @@ final readonly class EventProjector implements EventProjectorInterface
     {
         $transaction = new Transaction(
             type: TransactionType::Deposit,
+            amount: $event->amount,
+            createdAt: $event->getOccurredAt()
+        );
+
+        $this->transactionRepository->save($transaction, $event->accountId);
+    }
+
+    private function projectInterestPaid(InterestPaid $event): void
+    {
+        $transaction = new Transaction(
+            type: TransactionType::InterestPayout,
             amount: $event->amount,
             createdAt: $event->getOccurredAt()
         );

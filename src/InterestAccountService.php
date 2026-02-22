@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Chip\InterestAccount;
 
+use Chip\InterestAccount\Application\Command\CalculateInterest\CalculateInterestCommand;
+use Chip\InterestAccount\Application\Command\CalculateInterest\CalculateInterestHandler;
 use Chip\InterestAccount\Application\Command\Deposit\DepositCommand;
 use Chip\InterestAccount\Application\Command\Deposit\DepositHandler;
 use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountCommand;
@@ -16,6 +18,7 @@ use Chip\InterestAccount\Domain\ValueObject\AccountId;
 use Chip\InterestAccount\Domain\ValueObject\Money;
 use Chip\InterestAccount\Domain\ValueObject\UserId;
 use Chip\InterestAccount\Domain\Aggregate\Account;
+use DateTimeImmutable;
 
 final readonly class InterestAccountService implements InterestAccountServiceInterface
 {
@@ -23,6 +26,7 @@ final readonly class InterestAccountService implements InterestAccountServiceInt
         private OpenAccountHandler $openAccountHandler,
         private DepositHandler $depositHandler,
         private ListAccountStatementHandler $listAccountStatementHandler,
+        private CalculateInterestHandler $calculateInterestHandler,
     )
     {
     }
@@ -60,5 +64,25 @@ final readonly class InterestAccountService implements InterestAccountServiceInt
         $query = new ListAccountStatementQuery(AccountId::fromString($accountId));
 
         return $this->listAccountStatementHandler->handle($query);
+    }
+
+    /**
+     * @return array{
+     *     account: Account,
+     *     interestCalculation: ?array{
+     *       payoutAmount: Money,
+     *       pendingAmount: Money,
+     *   }
+     * }
+     * @throws DomainException
+     */
+    public function calculateInterest(string $accountId, ?DateTimeImmutable $now = null): array
+    {
+        $command = new CalculateInterestCommand(
+            AccountId::fromString($accountId),
+            $now ?? new DateTimeImmutable()
+        );
+
+        return $this->calculateInterestHandler->handle($command);
     }
 }

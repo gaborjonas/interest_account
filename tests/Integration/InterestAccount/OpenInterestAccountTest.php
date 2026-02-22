@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Integration\InterestAccount;
 
+use Chip\InterestAccount\Application\Command\CalculateInterest\CalculateInterestHandler;
 use Chip\InterestAccount\Application\Command\Deposit\DepositHandler;
 use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
 use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
@@ -63,6 +64,11 @@ final class OpenInterestAccountTest extends TestCase
             new ListAccountStatementHandler(
                 $accountRepository,
                 $transactionRepository,
+            ),
+            new CalculateInterestHandler(
+                $accountRepository,
+                $eventStore,
+                $eventProjector,
             ),
         );
 

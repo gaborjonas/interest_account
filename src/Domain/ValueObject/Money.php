@@ -56,4 +56,9 @@ final readonly class Money
     {
         return $this->value->value;
     }
+
+    public function asNumber(): Number
+    {
+        return $this->value;
+    }
 }

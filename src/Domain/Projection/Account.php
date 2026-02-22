@@ -7,7 +7,7 @@ use Chip\InterestAccount\Domain\Enum\AccountStatus;
 use Chip\InterestAccount\Domain\ValueObject\AccountId;
 use Chip\InterestAccount\Domain\ValueObject\UserId;
 
-final readonly class Account
+final class Account
 {
     public function __construct(
         public AccountId $accountId,
