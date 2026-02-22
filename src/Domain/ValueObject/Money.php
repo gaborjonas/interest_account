@@ -26,6 +26,11 @@ final readonly class Money
         }
     }
 
+    public function add(Money $amount): self
+    {
+        return new self($this->value->add($amount->value())->value);
+    }
+
     /**
      * @param numeric-string $value
      */
@@ -44,8 +49,11 @@ final readonly class Money
         return $this->value->compare(new Number('0')->value) === 0;
     }
 
+    /**
+     * @return numeric-string
+     */
     public function value(): string
     {
-        return (string) $this->value;
+        return $this->value->value;
     }
 }

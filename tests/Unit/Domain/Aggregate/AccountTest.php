@@ -7,9 +7,11 @@ namespace Tests\Unit\Domain\Aggregate;
 use Chip\InterestAccount\Domain\Aggregate\Account;
 use Chip\InterestAccount\Domain\Enum\AccountStatus;
 use Chip\InterestAccount\Domain\Event\AccountOpened;
+use Chip\InterestAccount\Domain\Event\DepositMade;
 use Chip\InterestAccount\Domain\Event\DomainEvent;
 use Chip\InterestAccount\Domain\ValueObject\AccountId;
 use Chip\InterestAccount\Domain\ValueObject\InterestRate;
+use Chip\InterestAccount\Domain\ValueObject\Money;
 use Chip\InterestAccount\Domain\ValueObject\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Test;
@@ -54,18 +56,20 @@ final class AccountTest extends TestCase
             userId: $this->userId,
             interestRate: new InterestRate('1.0')
         );
+        $account->deposit(Money::fromString('101.123'));
 
         $events = $account->pullEvents();
 
-        $this->assertCount(1, $events);
+        $this->assertCount(2, $events);
         $this->assertInstanceOf(AccountOpened::class, $events[0]);
+        $this->assertInstanceOf(DepositMade::class, $events[1]);
 
         $replayedAccount = Account::reconstitute($events);
 
         $this->assertSame($this->accountId->value(), $replayedAccount->getAggregateId()->value());
         $this->assertSame($this->userId->value(), $replayedAccount->getUserId()->value());
         $this->assertSame('1.0', $replayedAccount->getInterestRate()->value());
-        $this->assertSame('0', $replayedAccount->getBalance()->value());
+        $this->assertSame('101.123', $replayedAccount->getBalance()->value());
         $this->assertSame(AccountStatus::Open, $replayedAccount->getStatus());
         $this->assertSame(
             new DateTimeImmutable('now')->format('Y-m-d H:i'),

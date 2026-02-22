@@ -9,4 +9,9 @@ use Chip\InterestAccount\Domain\Aggregate\Account;
 interface InterestAccountServiceInterface
 {
     public function openAccount(string $userId): Account;
+
+    /**
+     * @param numeric-string $amount
+     */
+    public function deposit(string $accountId, string $userId, string $amount): Account;
 }

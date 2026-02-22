@@ -1,9 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Chip\InterestAccount\Domain\Aggregate;
 
 use Chip\InterestAccount\Domain\Enum\AccountStatus;
 use Chip\InterestAccount\Domain\Event\AccountOpened;
+use Chip\InterestAccount\Domain\Event\DepositMade;
 use Chip\InterestAccount\Domain\Event\DomainEvent;
 use Chip\InterestAccount\Domain\ValueObject\AccountId;
 use Chip\InterestAccount\Domain\ValueObject\InterestRate;
@@ -48,10 +51,16 @@ class Account extends AggregateRoot
         return $account;
     }
 
+    public function deposit(Money $amount): void
+    {
+        $this->record(new DepositMade($this->id, $amount));
+    }
+
     protected function apply(DomainEvent $event): void
     {
         match ($event::class) {
             AccountOpened::class => $this->applyAccountOpened($event),
+            DepositMade::class => $this->applyDepositMade($event),
             default => throw new RuntimeException('Unknown event type: ' . $event::class),
         };
     }
@@ -64,6 +73,11 @@ class Account extends AggregateRoot
         $this->openedAt = $event->getOccurredAt();
         $this->balance = Money::zero();
         $this->status = $event->status;
+    }
+
+    private function applyDepositMade(DepositMade $event): void
+    {
+        $this->balance = $this->balance->add($event->amount);
     }
 
     public function getAggregateId(): AccountId

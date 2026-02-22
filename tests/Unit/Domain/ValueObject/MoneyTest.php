@@ -37,4 +37,18 @@ final class MoneyTest extends TestCase
         $this->expectExceptionObject(new InvalidArgumentException('Amount cannot be negative'));
         Money::fromString('-1');
     }
+
+    #[Test]
+    public function addValues(): void
+    {
+        $money = Money::fromString('10000.01');
+        $new = $money->add(Money::fromString('10000.012345'));
+
+        $this->assertSame('20000.022345', $new->value());
+
+        $money = Money::fromString('10000.11111111111');
+        $new = $money->add(Money::fromString('10000.11111111111'));
+
+        $this->assertSame('20000.22222222222', $new->value());
+    }
 }

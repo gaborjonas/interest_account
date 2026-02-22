@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace Chip\InterestAccount\Application\Command;
+declare(strict_types=1);
+
+namespace Chip\InterestAccount\Application\Command\OpenAccount;
 
 use Chip\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
 use Chip\InterestAccount\Domain\Exception\UserStatisticsException;
@@ -16,9 +18,9 @@ class OpenAccountHandler
 {
     public function __construct(
         private AccountRepositoryInterface $accountRepository,
-        private StatsApiClient    $statsApiClient,
-        private EventStore        $eventStore,
-        private EventProjector    $eventProjector,
+        private StatsApiClient $statsApiClient,
+        private EventStore $eventStore,
+        private EventProjector $eventProjector,
     ) {
     }
 

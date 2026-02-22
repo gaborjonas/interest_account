@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Application\Command;
+namespace Chip\InterestAccount\Application\Command\OpenAccount;
 
 use Chip\InterestAccount\Domain\ValueObject\UserId;
 
