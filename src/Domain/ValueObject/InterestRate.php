@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Chip\InterestAccount\Domain\ValueObject;
 
 use BcMath\Number;
-use InvalidArgumentException;
+use Chip\InterestAccount\Domain\Exception\InvalidInterestRateException;
 use RoundingMode;
 
 final readonly class InterestRate
@@ -24,13 +26,14 @@ final readonly class InterestRate
 
     /**
      * @param numeric-string $rate
+     * @throws InvalidInterestRateException
      */
     public function __construct(string $rate)
     {
         $this->value = new Number($rate);
 
         if ($this->value->compare(new Number('0')->value) < 0) {
-            throw new InvalidArgumentException('Interest rate cannot be negative');
+            throw new InvalidInterestRateException('Interest rate cannot be negative');
         }
     }
 

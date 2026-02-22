@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Integration\InterestAccount;
+namespace Tests\Integration\InterestAccount;
 
 use Chip\InterestAccount\Application\Command\CalculateInterest\CalculateInterestHandler;
 use Chip\InterestAccount\Application\Command\Deposit\DepositHandler;

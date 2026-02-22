@@ -9,7 +9,7 @@ use Chip\InterestAccount\Domain\Enum\AccountStatus;
 use Chip\InterestAccount\Domain\EventStore\EventStoreInterface;
 use Chip\InterestAccount\Domain\Exception\AccountClosedException;
 use Chip\InterestAccount\Domain\Exception\AccountNotFoundException;
-use Chip\InterestAccount\Domain\Exception\InvalidDepositException;
+use Chip\InterestAccount\Domain\Exception\UnauthorizedAccessException;
 use Chip\InterestAccount\Domain\Projector\EventProjectorInterface;
 use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
 
@@ -25,8 +25,8 @@ readonly class DepositHandler
 
     /**
      * @throws AccountNotFoundException
-     * @throws InvalidDepositException
      * @throws AccountClosedException
+     * @throws UnauthorizedAccessException
      */
     public function handle(DepositCommand $command): Account
     {
@@ -37,7 +37,7 @@ readonly class DepositHandler
         }
 
         if ($accountProjection->userId->equals($command->userId) === false) {
-            throw new InvalidDepositException(
+            throw new UnauthorizedAccessException(
                 "User {$command->userId->value()} is not the owner of account {$accountProjection->accountId->value()}",
             );
         }

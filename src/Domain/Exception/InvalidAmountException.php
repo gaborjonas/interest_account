@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Chip\InterestAccount\Domain\Exception;
 
-final class InvalidDepositException extends DomainException
+class InvalidAmountException extends DomainException
 {
-    public function __construct(string $message)
+    public function __construct(string $message = 'Invalid amount provided')
     {
         parent::__construct($message);
     }

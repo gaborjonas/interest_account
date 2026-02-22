@@ -11,7 +11,7 @@ use Chip\InterestAccount\Domain\Event\AccountOpened;
 use Chip\InterestAccount\Domain\EventStore\EventStoreInterface;
 use Chip\InterestAccount\Domain\Exception\AccountClosedException;
 use Chip\InterestAccount\Domain\Exception\AccountNotFoundException;
-use Chip\InterestAccount\Domain\Exception\InvalidDepositException;
+use Chip\InterestAccount\Domain\Exception\UnauthorizedAccessException;
 use Chip\InterestAccount\Domain\Projection\Account;
 use Chip\InterestAccount\Domain\Projector\EventProjectorInterface;
 use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
@@ -73,7 +73,7 @@ final class DepositHandlerTest extends TestCase
         $requesterUserId = UserId::generate();
 
         $this->expectExceptionObject(
-            new InvalidDepositException(
+            new UnauthorizedAccessException(
                 "User {$requesterUserId->value()} is not the owner of account {$accountId->value()}"
             )
         );

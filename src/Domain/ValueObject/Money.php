@@ -3,7 +3,7 @@
 namespace Chip\InterestAccount\Domain\ValueObject;
 
 use BcMath\Number;
-use InvalidArgumentException;
+use Chip\InterestAccount\Domain\Exception\InvalidAmountException;
 use ValueError;
 
 final readonly class Money
@@ -12,17 +12,18 @@ final readonly class Money
 
     /**
      * @param numeric-string $value
+     * @throws InvalidAmountException
      */
     private function __construct(string $value)
     {
         try {
             $this->value = new Number($value);
         } catch (ValueError) {
-            throw new InvalidArgumentException('Amount must be a valid number');
+            throw new InvalidAmountException('Amount must be a valid number');
         }
 
         if ($this->value->compare(new Number('0')->value) < 0) {
-            throw new InvalidArgumentException('Amount cannot be negative');
+            throw new InvalidAmountException('Amount cannot be negative');
         }
     }
 

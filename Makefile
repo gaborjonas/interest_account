@@ -1,4 +1,4 @@
-.PHONY: help dev-setup docker-up composer-install docker-down shell install lint lint-check stan test test-coverage mutation all clean
+.PHONY: help dev-setup docker-up composer-install docker-down shell install lint lint-check stan test mutation all clean
 
 container-command := docker compose exec interest-account-lib
 
@@ -49,9 +49,6 @@ stan:
 
 test:
 	$(container-command) composer test
-
-test-coverage:
-	$(container-command) composer test:coverage
 
 mutation:
 	$(container-command) composer mutation

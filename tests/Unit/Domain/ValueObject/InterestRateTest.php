@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Unit\Domain\ValueObject;
@@ -8,7 +9,7 @@ use Chip\InterestAccount\Domain\ValueObject\Money;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use InvalidArgumentException;
+use Chip\InterestAccount\Domain\Exception\InvalidInterestRateException;
 
 final class InterestRateTest extends TestCase
 {
@@ -36,7 +37,7 @@ final class InterestRateTest extends TestCase
     #[Test]
     public function negativeRateThrowsException(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidInterestRateException::class);
         $this->expectExceptionMessage('Interest rate cannot be negative');
 
         new InterestRate('-1.0');
