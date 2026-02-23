@@ -23,13 +23,14 @@ use Chip\InterestAccount\InterestAccountService;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Clock\MockClock;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
 final class InterestPayoutTest extends TestCase
 {
     #[Test]
-    public function interestPayoutAfterThreeDays(): void
+    public function interestPayoutAfterThreeDays(): string
     {
         $userId = UserId::generate();
         $statsApiClient = new StatsApiClient(
@@ -51,6 +52,39 @@ final class InterestPayoutTest extends TestCase
         $eventProjector = new EventProjector(
             $accountRepository,
             $transactionRepository,
+        );
+        $clock = new MockClock();
+
+        $service = new InterestAccountService(
+            new OpenAccountHandler(
+                $accountRepository,
+                $statsApiClient,
+                $eventStore,
+                $eventProjector,
+            ),
+            new DepositHandler(
+                $accountRepository,
+                $eventStore,
+                $eventProjector,
+            ),
+            new ListAccountStatementHandler(
+                $accountRepository,
+                $transactionRepository,
+            ),
+            new CalculateInterestHandler(
+                $accountRepository,
+                $eventStore,
+                $eventProjector,
+            ),
+            $clock,
+        );
+
+        // Open account and deposit money
+        $account = $service->openAccount($userId->value());
+        $account = $service->deposit(
+            accountId: $account->getAggregateId()->value(),
+            userId: $userId->value(),
+            amount: '1000',
         );
 
         $service = new InterestAccountService(
@@ -74,19 +108,12 @@ final class InterestPayoutTest extends TestCase
                 $eventStore,
                 $eventProjector,
             ),
+            $clock,
         );
-
-        // Open account and deposit money
-        $account = $service->openAccount($userId->value());
-        $account = $service->deposit(
-            accountId: $account->getAggregateId()->value(),
-            userId: $userId->value(),
-            amount: '1000',
-        );
-
+        $clock->sleep(5);
         // Calculate interest after 3 days (should trigger payout)
-        $threeDaysLater = new DateTimeImmutable()->modify('+3 days');
-        $result = $service->calculateInterest($account->getAggregateId()->value(), $threeDaysLater);
+        $clock->modify('+3 days');
+        $result = $service->calculateInterest($account->getAggregateId()->value());
 
         $this->assertArrayHasKey('account', $result);
         $this->assertArrayHasKey('payoutAmount', $result['interestCalculation']);
@@ -121,6 +148,8 @@ final class InterestPayoutTest extends TestCase
         
         $this->assertSame(TransactionType::InterestPayout, $transactions[1]->type);
         $this->assertSame('0.08', $transactions[1]->amount->value());
+
+        return $account->getAggregateId()->value();
     }
 
     #[Test]
@@ -147,6 +176,7 @@ final class InterestPayoutTest extends TestCase
             $accountRepository,
             $transactionRepository,
         );
+        $clock = new MockClock();
 
         $service = new InterestAccountService(
             new OpenAccountHandler(
@@ -169,6 +199,7 @@ final class InterestPayoutTest extends TestCase
                 $eventStore,
                 $eventProjector,
             ),
+            $clock,
         );
 
         // Open account and deposit money
@@ -226,6 +257,7 @@ final class InterestPayoutTest extends TestCase
             $accountRepository,
             $transactionRepository,
         );
+        $clock = new MockClock();
 
         $service = new InterestAccountService(
             new OpenAccountHandler(
@@ -248,6 +280,7 @@ final class InterestPayoutTest extends TestCase
                 $eventStore,
                 $eventProjector,
             ),
+            $clock,
         );
 
         // Open account and deposit money
@@ -306,6 +339,7 @@ final class InterestPayoutTest extends TestCase
             $accountRepository,
             $transactionRepository,
         );
+        $clock = new MockClock();
 
         $service = new InterestAccountService(
             new OpenAccountHandler(
@@ -328,6 +362,7 @@ final class InterestPayoutTest extends TestCase
                 $eventStore,
                 $eventProjector,
             ),
+            $clock,
         );
 
         // Open account and deposit money
@@ -339,15 +374,19 @@ final class InterestPayoutTest extends TestCase
         );
 
         // First interest calculation after 3 days
-        $threeDaysLater = new DateTimeImmutable('now')->modify('+3 days');
-        $result1 = $service->calculateInterest($account->getAggregateId()->value(), $threeDaysLater);
+        $clock->sleep(5);
+        // Calculate interest after 3 days (should trigger payout)
+        $clock->modify('+3 days');
+        $result1 = $service->calculateInterest($account->getAggregateId()->value());
         $this->assertArrayHasKey('account', $result1);
         $this->assertArrayHasKey('payoutAmount', $result1['interestCalculation']);
         $this->assertArrayHasKey('pendingAmount', $result1['interestCalculation']);
         
         // Second interest calculation after another 3 days
-        $sixDaysLater = new DateTimeImmutable('now')->modify('+6 days');
-        $result2 = $service->calculateInterest($account->getAggregateId()->value(), $sixDaysLater);
+        $clock->sleep(5);
+        // Calculate interest after 3 days (should trigger payout)
+        $clock->modify('+6 days');
+        $result2 = $service->calculateInterest($account->getAggregateId()->value());
         $this->assertArrayHasKey('account', $result2);
         $this->assertArrayHasKey('payoutAmount', $result2['interestCalculation']);
         $this->assertArrayHasKey('pendingAmount', $result2['interestCalculation']);

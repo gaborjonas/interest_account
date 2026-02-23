@@ -12,6 +12,7 @@
         "php": "~8.5.0",
         "ext-bcmath": "*",
         "ext-uuid": "*",
+        "symfony/clock": "^8.0",
         "symfony/http-client": "^8.0",
         "symfony/uid": "^8.0"
     },

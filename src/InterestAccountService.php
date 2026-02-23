@@ -18,7 +18,7 @@ use Chip\InterestAccount\Domain\ValueObject\AccountId;
 use Chip\InterestAccount\Domain\ValueObject\Money;
 use Chip\InterestAccount\Domain\ValueObject\UserId;
 use Chip\InterestAccount\Domain\Aggregate\Account;
-use DateTimeImmutable;
+use Psr\Clock\ClockInterface;
 
 final readonly class InterestAccountService implements InterestAccountServiceInterface
 {
@@ -27,6 +27,7 @@ final readonly class InterestAccountService implements InterestAccountServiceInt
         private DepositHandler $depositHandler,
         private ListAccountStatementHandler $listAccountStatementHandler,
         private CalculateInterestHandler $calculateInterestHandler,
+        private ClockInterface $clock
     )
     {
     }
@@ -76,11 +77,11 @@ final readonly class InterestAccountService implements InterestAccountServiceInt
      * }
      * @throws DomainException
      */
-    public function calculateInterest(string $accountId, ?DateTimeImmutable $now = null): array
+    public function calculateInterest(string $accountId): array
     {
         $command = new CalculateInterestCommand(
             AccountId::fromString($accountId),
-            $now ?? new DateTimeImmutable()
+            $this->clock->now(),
         );
 
         return $this->calculateInterestHandler->handle($command);

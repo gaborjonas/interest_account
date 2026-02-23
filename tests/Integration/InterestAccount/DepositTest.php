@@ -21,6 +21,7 @@ use Chip\InterestAccount\Infrastructure\Service\StatsApiClient;
 use Chip\InterestAccount\InterestAccountService;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Clock\MockClock;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
@@ -50,6 +51,7 @@ final class DepositTest extends TestCase
             $accountRepository,
             $transactionRepository,
         );
+        $clock = new MockClock();
 
         $service = new InterestAccountService(
             new OpenAccountHandler(
@@ -72,6 +74,7 @@ final class DepositTest extends TestCase
                 $eventStore,
                 $eventProjector,
             ),
+            $clock,
         );
 
         $account = $service->openAccount($userId->value());
