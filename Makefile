@@ -21,7 +21,7 @@ help:
 
 dev-setup: clean docker-down docker-up composer-install
 
-run-demo:
+run-demo: docker-down
 	@docker compose up --build
 
 docker-up:
