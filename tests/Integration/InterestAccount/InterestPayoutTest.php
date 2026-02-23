@@ -203,6 +203,86 @@ final class InterestPayoutTest extends TestCase
     }
 
     #[Test]
+    public function noInterestPayoutCanHappenEveryThreeDays(): void
+    {
+        $userId = UserId::generate();
+        $statsApiClient = new StatsApiClient(
+            new MockHttpClient(
+                new MockResponse(
+                    body: json_encode([
+                        'id' => $userId->value(),
+                        'income' => 10000,
+                    ]),
+                    info: [
+                        'http_code' => 200,
+                    ]),
+                'https://stats.dev.chip.test/'
+            ),
+        );
+        $accountRepository = new AccountRepository();
+        $transactionRepository = new TransactionRepository();
+        $eventStore = new EventStore();
+        $eventProjector = new EventProjector(
+            $accountRepository,
+            $transactionRepository,
+        );
+
+        $service = new InterestAccountService(
+            new OpenAccountHandler(
+                $accountRepository,
+                $statsApiClient,
+                $eventStore,
+                $eventProjector,
+            ),
+            new DepositHandler(
+                $accountRepository,
+                $eventStore,
+                $eventProjector,
+            ),
+            new ListAccountStatementHandler(
+                $accountRepository,
+                $transactionRepository,
+            ),
+            new CalculateInterestHandler(
+                $accountRepository,
+                $eventStore,
+                $eventProjector,
+            ),
+        );
+
+        // Open account and deposit money
+        $account = $service->openAccount($userId->value());
+        $account = $service->deposit(
+            accountId: $account->getAggregateId()->value(),
+            userId: $userId->value(),
+            amount: '1000',
+        );
+
+        // Calculate interest after 4 days (should not trigger payout)
+        $fourDaysLater = new DateTimeImmutable()->modify('+4 days');
+        $result = $service->calculateInterest($account->getAggregateId()->value(), $fourDaysLater);
+
+        $this->assertArrayHasKey('account', $result);
+        $this->assertArrayHasKey('interestCalculation', $result);
+        $this->assertNull($result['interestCalculation']);
+
+        // Balance should remain unchanged
+        $this->assertSame('1000', $result['account']->getBalance()->value());
+
+        // Verify only account opened and deposit events exist
+        $events = $eventStore->load($result['account']->getAggregateId()->value());
+        $this->assertCount(2, $events);
+
+        $this->assertInstanceOf(AccountOpened::class, $events[0]);
+        $this->assertInstanceOf(DepositMade::class, $events[1]);
+
+        // Verify only deposit transaction exists
+        $transactions = $transactionRepository->findByAccountId($result['account']->getAggregateId());
+        $this->assertCount(1, $transactions);
+        $this->assertSame(TransactionType::Deposit, $transactions[0]->type);
+    }
+
+    #[Test]
     public function multipleInterestPayoutsOverTime(): void
     {
         $userId = UserId::generate();

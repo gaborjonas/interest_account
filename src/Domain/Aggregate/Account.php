@@ -68,7 +68,8 @@ class Account extends AggregateRoot
     {
         $daysSinceLastCalculation = $calculateAt->diff($this->lastInterestCalculation)->days;
 
-        if ($daysSinceLastCalculation < self::DAYS_BETWEEN_INTEREST_CALCULATION) {
+        if ($daysSinceLastCalculation < self::DAYS_BETWEEN_INTEREST_CALCULATION ||
+            $daysSinceLastCalculation % self::DAYS_BETWEEN_INTEREST_CALCULATION !== 0) {
             return null;
         }
 
