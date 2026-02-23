@@ -53,4 +53,4 @@ COPY docker/prod/opcache.ini "$PHP_INI_DIR/conf.d/opcache.ini"
 
 RUN rm /usr/local/bin/install-php-extensions /app/composer.json
 
-CMD ["php", "./public/test.php"]
+CMD ["php", "./public/demo.php"]

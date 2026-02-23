@@ -15,8 +15,12 @@ use Chip\InterestAccount\Infrastructure\Repository\AccountRepository;
 use Chip\InterestAccount\Infrastructure\Repository\TransactionRepository;
 use Chip\InterestAccount\Infrastructure\Service\StatsApiClient;
 use Chip\InterestAccount\Domain\ValueObject\UserId;
+use Psr\Clock\ClockInterface;
+use Symfony\Component\Clock\MockClock;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
+
+$clock = new MockClock();
 
 echo '=== Interest Account Service Test Scenarios ===' . PHP_EOL . PHP_EOL;
 echo 'NOTE: Using COMPOUND INTEREST calculation (interest compounds daily)' . PHP_EOL . PHP_EOL;
@@ -25,13 +29,14 @@ echo 'NOTE: Using COMPOUND INTEREST calculation (interest compounds daily)' . PH
 echo 'Scenario 1: £1000 at 1.02% for 3 days (Premium Rate)' . PHP_EOL;
 echo '==================================================' . PHP_EOL;
 
-$service = createInterestAccountService(10000); // £10,000 monthly income = premium rate
+$service = createInterestAccountService(10000, $clock); // £10,000 monthly income = premium rate
 $account = $service->openAccount(UserId::generate()->value());
 $account = $service->deposit($account->getAggregateId()->value(), $account->getUserId()->value(), '1000');
 
 // Calculate interest after 3 days
-$threeDaysLater = new DateTimeImmutable()->modify('+3 days');
-$result = $service->calculateInterest($account->getAggregateId()->value(), $threeDaysLater);
+$clock->sleep(1);
+$clock->modify('+3 days');
+$result = $service->calculateInterest($account->getAggregateId()->value());
 
 echo 'Starting balance: £1000' . PHP_EOL;
 echo 'Interest rate: 1.02% annually (premium rate)' . PHP_EOL;
@@ -47,11 +52,13 @@ echo PHP_EOL . PHP_EOL;
 echo 'Scenario 2: £100 at 0.5% for 3 days (Unknown Income)' . PHP_EOL;
 echo '====================================================' . PHP_EOL;
 
-$service2 = createInterestAccountService(0); // No income data = default rate
+$service2 = createInterestAccountService(0, $clock); // No income data = default rate
 $account2 = $service2->openAccount(UserId::generate()->value());
 $account2 = $service2->deposit($account2->getAggregateId()->value(), $account2->getUserId()->value(), '100');
 
-$result2 = $service2->calculateInterest($account2->getAggregateId()->value(), new DateTimeImmutable()->modify('+3 days'));
+$clock->sleep(1);
+$clock->modify('+3 days');
+$result2 = $service2->calculateInterest($account2->getAggregateId()->value());
 
 echo 'Starting balance: £100' . PHP_EOL;
 echo 'Interest rate: 0.5% annually (default rate)' . PHP_EOL;
@@ -66,7 +73,7 @@ echo PHP_EOL . PHP_EOL;
 echo 'Scenario 3: Multiple Interest Calculations Over Time' . PHP_EOL;
 echo '====================================================' . PHP_EOL;
 
-$service3 = createInterestAccountService(3000); // £3,000 monthly income = standard rate
+$service3 = createInterestAccountService(3000, $clock); // £3,000 monthly income = standard rate
 $account3 = $service3->openAccount(UserId::generate()->value());
 $account3 = $service3->deposit($account3->getAggregateId()->value(), $account3->getUserId()->value(), '500');
 
@@ -74,8 +81,9 @@ echo 'Starting balance: £500' . PHP_EOL;
 echo 'Interest rate: 0.93% annually (standard rate)' . PHP_EOL;
 
 // First calculation after 3 days
-$threeDaysLater = new DateTimeImmutable()->modify('+3 days');
-$result3a = $service3->calculateInterest($account3->getAggregateId()->value(), $threeDaysLater);
+$clock->sleep(1);
+$clock->modify('+3 days');
+$result3a = $service3->calculateInterest($account3->getAggregateId()->value());
 
 echo PHP_EOL . 'After first 3 days:' . PHP_EOL;
 echo '  Balance: £' . $result3a['account']->getBalance()->value() . PHP_EOL;
@@ -83,8 +91,9 @@ echo '  Interest payout: £' . $result3a['interestCalculation']['payoutAmount']-
 echo '  Pending interest: £' . $result3a['interestCalculation']['pendingAmount']->value() . PHP_EOL;
 
 // Second calculation after 6 days total
-$sixDaysLater = new DateTimeImmutable()->modify('+6 days');
-$result3b = $service3->calculateInterest($account3->getAggregateId()->value(), $sixDaysLater);
+$clock->sleep(1);
+$clock->modify('+6 days');
+$result3b = $service3->calculateInterest($account3->getAggregateId()->value());
 
 echo PHP_EOL . 'After 6 days total:' . PHP_EOL;
 echo '  Balance: £' . $result3b['account']->getBalance()->value() . PHP_EOL;
@@ -111,11 +120,13 @@ $incomeScenarios = [
 ];
 
 foreach ($incomeScenarios as $scenario) {
-    $service4 = createInterestAccountService($scenario['income']);
+    $service4 = createInterestAccountService($scenario['income'], $clock);
     $account4 = $service4->openAccount(UserId::generate()->value());
     $account4 = $service4->deposit($account4->getAggregateId()->value(), $account4->getUserId()->value(), '1000');
 
-    $result4 = $service4->calculateInterest($account4->getAggregateId()->value(), new DateTimeImmutable()->modify('+30 days'));
+    $clock->sleep(1);
+    $clock->modify('+30 days');
+    $result4 = $service4->calculateInterest($account4->getAggregateId()->value());
 
     echo sprintf('%-20s (%s): Payout = £%s, Pending = £%s' . PHP_EOL,
         $scenario['description'],
@@ -127,7 +138,7 @@ foreach ($incomeScenarios as $scenario) {
 
 echo PHP_EOL . '=== Test Complete ===' . PHP_EOL;
 
-function createInterestAccountService(int $monthlyIncome): InterestAccountService
+function createInterestAccountService(int $monthlyIncome, ClockInterface $clock): InterestAccountService
 {
     $userId = UserId::generate();
     $statsApiClient = new StatsApiClient(
@@ -173,5 +184,6 @@ function createInterestAccountService(int $monthlyIncome): InterestAccountServic
             $eventStore,
             $eventProjector,
         ),
+        $clock,
     );
 }

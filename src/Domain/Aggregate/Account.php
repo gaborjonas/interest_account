@@ -66,7 +66,6 @@ class Account extends AggregateRoot
      */
     public function calculateInterest(DateTimeImmutable $calculateAt): ?array
     {
-        $diff = $calculateAt->diff($this->lastInterestCalculation);
         $daysSinceLastCalculation = $calculateAt->diff($this->lastInterestCalculation)->days;
 
         if ($daysSinceLastCalculation < self::DAYS_BETWEEN_INTEREST_CALCULATION ||
