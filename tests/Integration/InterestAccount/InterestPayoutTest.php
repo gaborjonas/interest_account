@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tests\Integration\InterestAccount;
@@ -109,7 +110,7 @@ final class InterestPayoutTest extends TestCase
 
         // Verify interest calculated event
         $this->assertEquals($account->getAggregateId(), $events[3]->accountId);
-        $this->assertSame('0.0038356000', $events[3]->pendingInterest->value());
+        $this->assertSame('0.0038379427', $events[3]->pendingInterest->value());
 
         // Verify transactions
         $transactions = $transactionRepository->findByAccountId($account->getAggregateId());

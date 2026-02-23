@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Chip\InterestAccount\Domain\Exception;
 
-class UnauthorizedAccessException extends DomainException
+final class UnauthorizedAccessException extends DomainException
 {
     public function __construct(string $message = 'Unauthorized access to account')
     {

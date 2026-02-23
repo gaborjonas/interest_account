@@ -1,9 +1,10 @@
-.PHONY: help dev-setup docker-up composer-install docker-down shell install lint lint-check stan test mutation all clean
+.PHONY: help dev-setup docker-up composer-install docker-down shell install lint lint-check stan test mutation clean run-demo
 
 container-command := docker compose exec interest-account-lib
 
 help:
 	@echo "Available commands:"
+	@echo "  run-demo      - Build production ready container and run demo in CLI"
 	@echo "  dev-setup     - Start Docker containers"
 	@echo "  install       - Install Composer dependencies"
 	@echo "  lint          - Fix code style issues"
@@ -20,7 +21,7 @@ help:
 
 dev-setup: clean docker-down docker-up composer-install
 
-run:
+run-demo:
 	@docker compose up --build
 
 docker-up:

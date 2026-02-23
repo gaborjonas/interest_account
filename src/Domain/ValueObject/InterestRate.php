@@ -10,6 +10,9 @@ use RoundingMode;
 
 final readonly class InterestRate
 {
+    private const int CALCULATION_SCALE = 10;
+    private const string PAYOUT_THRESHOLD = '0.01';
+
     private const string DEFAULT_INTEREST_RATE = '0.5';
 
     private const string STANDARD_INTEREST_RATE = '0.93';
@@ -19,8 +22,6 @@ final readonly class InterestRate
     private const string INCOME_THRESHOLD = '5000';
 
     private const string DAYS_IN_YEAR = '365';
-
-    private const int CALCULATION_SCALE = 10;
 
     private Number $value;
 
@@ -71,33 +72,38 @@ final readonly class InterestRate
 
         $days = new Number($days);
         $daysInYear = new Number(self::DAYS_IN_YEAR);
-        $payoutThreshold = new Number('0.01');
+        $payoutThreshold = new Number(self::PAYOUT_THRESHOLD);
 
-        // 1. Calculate 3-day interest: (Balance * (Rate / 365)) * Days
         $dailyRate = $annualRate->div($daysInYear, self::CALCULATION_SCALE);
-        $newInterest = $currentBalance
-            ->mul($dailyRate, self::CALCULATION_SCALE)
-            ->mul($days, self::CALCULATION_SCALE);
+        $newInterest = new Number('0');
 
-        // 2. Add new interest to any previously accumulated unpaid interest
+        // Calculate interest for each day with compounding
+        $daysInt = (int)$days->value;
+        for ($day = 0; $day < $daysInt; $day++) {
+            $dailyInterest = $currentBalance->mul($dailyRate, self::CALCULATION_SCALE);
+            $newInterest = $newInterest->add($dailyInterest, self::CALCULATION_SCALE);
+            $currentBalance = $currentBalance->add($dailyInterest, self::CALCULATION_SCALE);
+        }
+
+        // Add new interest to any previously accumulated unpaid interest
         $totalCalculatedInterest = $unpaidInterest->add($newInterest, self::CALCULATION_SCALE);
 
-        // 3. Check if we have at least one penny
+        // Check if we have at least one penny
         if ($totalCalculatedInterest->compare($payoutThreshold) >= 0) {
 
             // Extract whole pennies for the deposit
-            $payoutMade = $totalCalculatedInterest->round(2, RoundingMode::TowardsZero);
+            $payOutAmount = $totalCalculatedInterest->round(2, RoundingMode::TowardsZero);
 
             // Keep the fractional for next time
-            $pendingInterest = $totalCalculatedInterest->sub($payoutMade, self::CALCULATION_SCALE);
+            $pendingInterest = $totalCalculatedInterest->sub($payOutAmount, self::CALCULATION_SCALE);
         } else {
-            // Not enough to pay out store for next time
-            $payoutMade = new Number('0');
+            // Not enough to pay out, store for next time
+            $payOutAmount = new Number('0');
             $pendingInterest = $totalCalculatedInterest;
         }
 
         return [
-            'payoutAmount' => Money::fromString($payoutMade->value),
+            'payoutAmount' => Money::fromString($payOutAmount->value),
             'pendingAmount' => Money::fromString($pendingInterest->value),
         ];
     }

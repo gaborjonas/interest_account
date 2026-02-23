@@ -19,6 +19,7 @@ use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 
 echo '=== Interest Account Service Test Scenarios ===' . PHP_EOL . PHP_EOL;
+echo 'NOTE: Using COMPOUND INTEREST calculation (interest compounds daily)' . PHP_EOL . PHP_EOL;
 
 // Test Scenario 1: £1000 at 1.02% for 3 days (premium rate)
 echo 'Scenario 1: £1000 at 1.02% for 3 days (Premium Rate)' . PHP_EOL;
@@ -34,6 +35,7 @@ $result = $service->calculateInterest($account->getAggregateId()->value(), $thre
 
 echo 'Starting balance: £1000' . PHP_EOL;
 echo 'Interest rate: 1.02% annually (premium rate)' . PHP_EOL;
+echo 'Calculation: Daily compounding (interest adds to principal each day)' . PHP_EOL;
 echo 'After 3 days:' . PHP_EOL;
 echo '  Final balance: £' . $result['account']->getBalance()->value() . PHP_EOL;
 echo '  Interest payout: £' . $result['interestCalculation']['payoutAmount']->value() . PHP_EOL;
@@ -61,9 +63,8 @@ echo '  Should be £0.00 payout (below 1p threshold)' . PHP_EOL;
 
 echo PHP_EOL . PHP_EOL;
 
-// Test Scenario 3: Multiple interest calculations over time
 echo 'Scenario 3: Multiple Interest Calculations Over Time' . PHP_EOL;
-echo '================================================' . PHP_EOL;
+echo '====================================================' . PHP_EOL;
 
 $service3 = createInterestAccountService(3000); // £3,000 monthly income = standard rate
 $account3 = $service3->openAccount(UserId::generate()->value());
@@ -99,9 +100,9 @@ foreach ($transactions as $transaction) {
 
 echo PHP_EOL . PHP_EOL;
 
-// Test Scenario 4: Interest rate comparison based on income
+// Test Scenario 4: Interest rate comparison based on income (with compound interest)
 echo 'Scenario 4: Interest Rate Comparison Based on Income' . PHP_EOL;
-echo '==================================================' . PHP_EOL;
+echo '====================================================' . PHP_EOL;
 
 $incomeScenarios = [
     ['income' => 0, 'rate' => '0.5%', 'description' => 'Unknown income'],
@@ -113,13 +114,13 @@ foreach ($incomeScenarios as $scenario) {
     $service4 = createInterestAccountService($scenario['income']);
     $account4 = $service4->openAccount(UserId::generate()->value());
     $account4 = $service4->deposit($account4->getAggregateId()->value(), $account4->getUserId()->value(), '1000');
-    
+
     $result4 = $service4->calculateInterest($account4->getAggregateId()->value(), new DateTimeImmutable()->modify('+30 days'));
-    
+
     echo sprintf('%-20s (%s): Payout = £%s, Pending = £%s' . PHP_EOL,
         $scenario['description'],
         $scenario['rate'],
-        $result4['interestCalculation']['payoutAmount']->value(), 
+        $result4['interestCalculation']['payoutAmount']->value(),
         $result4['interestCalculation']['pendingAmount']->value()
     );
 }

@@ -10,10 +10,14 @@ use Chip\InterestAccount\Domain\Projection\Transaction;
 
 interface InterestAccountServiceInterface
 {
+    /**
+     * @throws DomainException
+     */
     public function openAccount(string $userId): Account;
 
     /**
      * @param numeric-string $amount
+     * @throws DomainException
      */
     public function deposit(string $accountId, string $userId, string $amount): Account;
 
