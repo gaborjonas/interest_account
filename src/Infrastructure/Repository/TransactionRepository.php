@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Chip\InterestAccount\Infrastructure\Repository;
+namespace App\InterestAccount\Infrastructure\Repository;
 
-use Chip\InterestAccount\Domain\Projection\Transaction;
-use Chip\InterestAccount\Domain\Repository\TransactionRepositoryInterface;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\Projection\Transaction;
+use App\InterestAccount\Domain\Repository\TransactionRepositoryInterface;
+use App\InterestAccount\Domain\ValueObject\AccountId;
 
 final class TransactionRepository implements TransactionRepositoryInterface
 {

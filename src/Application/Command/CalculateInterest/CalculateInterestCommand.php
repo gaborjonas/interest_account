@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Application\Command\CalculateInterest;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
+namespace App\InterestAccount\Application\Command\CalculateInterest;
+use App\InterestAccount\Domain\ValueObject\AccountId;
 use DateTimeImmutable;
 
 final readonly class CalculateInterestCommand

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Projector;
+namespace App\InterestAccount\Domain\Projector;
 
-use Chip\InterestAccount\Domain\Event\DomainEvent;
+use App\InterestAccount\Domain\Event\DomainEvent;
 
 interface EventProjectorInterface
 {

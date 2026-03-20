@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount;
+namespace App\InterestAccount;
 
-use Chip\InterestAccount\Domain\Aggregate\Account;
-use Chip\InterestAccount\Domain\Exception\DomainException;
-use Chip\InterestAccount\Domain\Projection\Transaction;
-use Chip\InterestAccount\Domain\ValueObject\Money;
+use App\InterestAccount\Domain\Aggregate\Account;
+use App\InterestAccount\Domain\Exception\DomainException;
+use App\InterestAccount\Domain\Projection\Transaction;
+use App\InterestAccount\Domain\ValueObject\Money;
 
 interface InterestAccountServiceInterface
 {

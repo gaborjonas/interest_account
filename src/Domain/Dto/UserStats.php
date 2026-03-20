@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Dto;
+namespace App\InterestAccount\Domain\Dto;
 
 final readonly class UserStats
 {

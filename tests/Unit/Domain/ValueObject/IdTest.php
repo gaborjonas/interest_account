@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Unit\Domain\ValueObject;
 
-use Chip\InterestAccount\Domain\Exception\InvalidIdException;
-use Chip\InterestAccount\Domain\ValueObject\Id;
+use App\InterestAccount\Domain\Exception\InvalidIdException;
+use App\InterestAccount\Domain\ValueObject\Id;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

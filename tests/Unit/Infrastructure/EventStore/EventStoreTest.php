@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructure\EventStore;
 
-use Chip\InterestAccount\Domain\Enum\AccountStatus;
-use Chip\InterestAccount\Domain\Event\AccountOpened;
-use Chip\InterestAccount\Domain\EventStore\EventStoreInterface;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\InterestRate;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
-use Chip\InterestAccount\Infrastructure\EventStore\EventStore;
+use App\InterestAccount\Domain\Enum\AccountStatus;
+use App\InterestAccount\Domain\Event\AccountOpened;
+use App\InterestAccount\Domain\EventStore\EventStoreInterface;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\InterestRate;
+use App\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Infrastructure\EventStore\EventStore;
 use PHPUnit\Framework\TestCase;
 
 final class EventStoreTest extends TestCase

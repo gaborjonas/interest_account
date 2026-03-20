@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Event;
+namespace App\InterestAccount\Domain\Event;
 
 use DateTimeImmutable;
 use Symfony\Component\Uid\Uuid;

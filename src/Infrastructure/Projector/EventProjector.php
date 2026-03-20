@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Infrastructure\Projector;
-use Chip\InterestAccount\Domain\Enum\TransactionType;
-use Chip\InterestAccount\Domain\Event\AccountOpened;
-use Chip\InterestAccount\Domain\Event\DepositMade;
-use Chip\InterestAccount\Domain\Event\DomainEvent;
-use Chip\InterestAccount\Domain\Event\InterestPaid;
-use Chip\InterestAccount\Domain\Projection\Account;
-use Chip\InterestAccount\Domain\Projection\Transaction;
-use Chip\InterestAccount\Domain\Projector\EventProjectorInterface;
-use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
-use Chip\InterestAccount\Domain\Repository\TransactionRepositoryInterface;
+namespace App\InterestAccount\Infrastructure\Projector;
+use App\InterestAccount\Domain\Enum\TransactionType;
+use App\InterestAccount\Domain\Event\AccountOpened;
+use App\InterestAccount\Domain\Event\DepositMade;
+use App\InterestAccount\Domain\Event\DomainEvent;
+use App\InterestAccount\Domain\Event\InterestPaid;
+use App\InterestAccount\Domain\Projection\Account;
+use App\InterestAccount\Domain\Projection\Transaction;
+use App\InterestAccount\Domain\Projector\EventProjectorInterface;
+use App\InterestAccount\Domain\Repository\AccountRepositoryInterface;
+use App\InterestAccount\Domain\Repository\TransactionRepositoryInterface;
 
 final readonly class EventProjector implements EventProjectorInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Enum;
+namespace App\InterestAccount\Domain\Enum;
 
 enum TransactionType: string
 {

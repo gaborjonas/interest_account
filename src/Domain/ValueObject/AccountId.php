@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\ValueObject;
+namespace App\InterestAccount\Domain\ValueObject;
 
 final readonly class AccountId extends Id
 {

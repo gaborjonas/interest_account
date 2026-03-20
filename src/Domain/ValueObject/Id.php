@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\ValueObject;
+namespace App\InterestAccount\Domain\ValueObject;
 
-use Chip\InterestAccount\Domain\Exception\InvalidIdException;
+use App\InterestAccount\Domain\Exception\InvalidIdException;
 use Symfony\Component\Uid\Uuid;
 
 abstract readonly class Id

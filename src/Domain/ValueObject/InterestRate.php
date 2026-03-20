@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\ValueObject;
+namespace App\InterestAccount\Domain\ValueObject;
 
 use BcMath\Number;
-use Chip\InterestAccount\Domain\Exception\InvalidInterestRateException;
+use App\InterestAccount\Domain\Exception\InvalidInterestRateException;
 use RoundingMode;
 
 final readonly class InterestRate

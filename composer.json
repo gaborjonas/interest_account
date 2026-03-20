@@ -1,5 +1,5 @@
 {
-    "name": "chip/interest_account",
+    "name": "gaborjonas/interest_account",
     "type": "library",
     "version": "0.1.0",
     "authors": [
@@ -30,7 +30,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Chip\\InterestAccount\\": "src/"
+            "App\\InterestAccount\\": "src/"
         }
     },
     "autoload-dev": {

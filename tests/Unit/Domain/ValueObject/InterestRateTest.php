@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Domain\ValueObject;
 
-use Chip\InterestAccount\Domain\ValueObject\InterestRate;
-use Chip\InterestAccount\Domain\ValueObject\Money;
+use App\InterestAccount\Domain\ValueObject\InterestRate;
+use App\InterestAccount\Domain\ValueObject\Money;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use Chip\InterestAccount\Domain\Exception\InvalidInterestRateException;
+use App\InterestAccount\Domain\Exception\InvalidInterestRateException;
 
 final class InterestRateTest extends TestCase
 {

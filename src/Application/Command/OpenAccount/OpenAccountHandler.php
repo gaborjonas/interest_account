@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Application\Command\OpenAccount;
+namespace App\InterestAccount\Application\Command\OpenAccount;
 
-use Chip\InterestAccount\Domain\EventStore\EventStoreInterface;
-use Chip\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
-use Chip\InterestAccount\Domain\Exception\UserStatisticsException;
-use Chip\InterestAccount\Domain\Aggregate\Account;
-use Chip\InterestAccount\Domain\Projector\EventProjectorInterface;
-use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
-use Chip\InterestAccount\Domain\Service\StatsApiClientInterface;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\InterestRate;
+use App\InterestAccount\Domain\EventStore\EventStoreInterface;
+use App\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
+use App\InterestAccount\Domain\Exception\UserStatisticsException;
+use App\InterestAccount\Domain\Aggregate\Account;
+use App\InterestAccount\Domain\Projector\EventProjectorInterface;
+use App\InterestAccount\Domain\Repository\AccountRepositoryInterface;
+use App\InterestAccount\Domain\Service\StatsApiClientInterface;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\InterestRate;
 
 class OpenAccountHandler
 {

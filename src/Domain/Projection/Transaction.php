@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Projection;
+namespace App\InterestAccount\Domain\Projection;
 
-use Chip\InterestAccount\Domain\Enum\TransactionType;
-use Chip\InterestAccount\Domain\ValueObject\Money;
+use App\InterestAccount\Domain\Enum\TransactionType;
+use App\InterestAccount\Domain\ValueObject\Money;
 use DateTimeImmutable;
 
 final readonly class Transaction

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Infrastructure\Repository;
+namespace App\InterestAccount\Infrastructure\Repository;
 
-use Chip\InterestAccount\Domain\Projection\Account;
-use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Domain\Projection\Account;
+use App\InterestAccount\Domain\Repository\AccountRepositoryInterface;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\UserId;
 
 final class AccountRepository implements AccountRepositoryInterface
 {

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Domain\Exception;
 
-use Chip\InterestAccount\Domain\Exception\AccountClosedException;
-use Chip\InterestAccount\Domain\Exception\AccountNotFoundException;
-use Chip\InterestAccount\Domain\Exception\InvalidIdException;
-use Chip\InterestAccount\Domain\Exception\MalformedUserStatisticsException;
-use Chip\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
-use Chip\InterestAccount\Domain\Exception\UserStatisticsException;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Domain\Exception\AccountClosedException;
+use App\InterestAccount\Domain\Exception\AccountNotFoundException;
+use App\InterestAccount\Domain\Exception\InvalidIdException;
+use App\InterestAccount\Domain\Exception\MalformedUserStatisticsException;
+use App\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
+use App\InterestAccount\Domain\Exception\UserStatisticsException;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\UserId;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;

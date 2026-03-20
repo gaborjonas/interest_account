@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Aggregate;
+namespace App\InterestAccount\Domain\Aggregate;
 
-use Chip\InterestAccount\Domain\Event\DomainEvent;
-use Chip\InterestAccount\Domain\ValueObject\Id;
+use App\InterestAccount\Domain\Event\DomainEvent;
+use App\InterestAccount\Domain\ValueObject\Id;
 
 abstract class AggregateRoot
 {

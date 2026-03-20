@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Domain\ValueObject;
 
-use Chip\InterestAccount\Domain\Exception\InvalidAmountException;
-use Chip\InterestAccount\Domain\ValueObject\Money;
+use App\InterestAccount\Domain\Exception\InvalidAmountException;
+use App\InterestAccount\Domain\ValueObject\Money;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

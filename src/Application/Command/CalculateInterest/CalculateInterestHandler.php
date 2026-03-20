@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Application\Command\CalculateInterest;
+namespace App\InterestAccount\Application\Command\CalculateInterest;
 
-use Chip\InterestAccount\Domain\Aggregate\Account;
-use Chip\InterestAccount\Domain\EventStore\EventStoreInterface;
-use Chip\InterestAccount\Domain\Exception\AccountNotFoundException;
-use Chip\InterestAccount\Domain\Projector\EventProjectorInterface;
-use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
-use Chip\InterestAccount\Domain\ValueObject\Money;
+use App\InterestAccount\Domain\Aggregate\Account;
+use App\InterestAccount\Domain\EventStore\EventStoreInterface;
+use App\InterestAccount\Domain\Exception\AccountNotFoundException;
+use App\InterestAccount\Domain\Projector\EventProjectorInterface;
+use App\InterestAccount\Domain\Repository\AccountRepositoryInterface;
+use App\InterestAccount\Domain\ValueObject\Money;
 
 readonly class CalculateInterestHandler
 {

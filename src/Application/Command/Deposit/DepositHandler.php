@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Application\Command\Deposit;
+namespace App\InterestAccount\Application\Command\Deposit;
 
-use Chip\InterestAccount\Domain\Aggregate\Account;
-use Chip\InterestAccount\Domain\Enum\AccountStatus;
-use Chip\InterestAccount\Domain\EventStore\EventStoreInterface;
-use Chip\InterestAccount\Domain\Exception\AccountClosedException;
-use Chip\InterestAccount\Domain\Exception\AccountNotFoundException;
-use Chip\InterestAccount\Domain\Exception\UnauthorizedAccessException;
-use Chip\InterestAccount\Domain\Projector\EventProjectorInterface;
-use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
+use App\InterestAccount\Domain\Aggregate\Account;
+use App\InterestAccount\Domain\Enum\AccountStatus;
+use App\InterestAccount\Domain\EventStore\EventStoreInterface;
+use App\InterestAccount\Domain\Exception\AccountClosedException;
+use App\InterestAccount\Domain\Exception\AccountNotFoundException;
+use App\InterestAccount\Domain\Exception\UnauthorizedAccessException;
+use App\InterestAccount\Domain\Projector\EventProjectorInterface;
+use App\InterestAccount\Domain\Repository\AccountRepositoryInterface;
 
 readonly class DepositHandler
 {

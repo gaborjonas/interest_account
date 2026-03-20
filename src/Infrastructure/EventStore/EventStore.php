@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Chip\InterestAccount\Infrastructure\EventStore;
+namespace App\InterestAccount\Infrastructure\EventStore;
 
-use Chip\InterestAccount\Domain\Event\DomainEvent;
-use Chip\InterestAccount\Domain\EventStore\EventStoreInterface;
+use App\InterestAccount\Domain\Event\DomainEvent;
+use App\InterestAccount\Domain\EventStore\EventStoreInterface;
 
 final class EventStore implements EventStoreInterface
 {

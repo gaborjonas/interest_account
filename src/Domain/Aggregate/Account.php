@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Aggregate;
+namespace App\InterestAccount\Domain\Aggregate;
 
-use Chip\InterestAccount\Domain\Enum\AccountStatus;
-use Chip\InterestAccount\Domain\Event\AccountOpened;
-use Chip\InterestAccount\Domain\Event\DepositMade;
-use Chip\InterestAccount\Domain\Event\DomainEvent;
-use Chip\InterestAccount\Domain\Event\InterestCalculated;
-use Chip\InterestAccount\Domain\Event\InterestPaid;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\InterestRate;
-use Chip\InterestAccount\Domain\ValueObject\Money;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Domain\Enum\AccountStatus;
+use App\InterestAccount\Domain\Event\AccountOpened;
+use App\InterestAccount\Domain\Event\DepositMade;
+use App\InterestAccount\Domain\Event\DomainEvent;
+use App\InterestAccount\Domain\Event\InterestCalculated;
+use App\InterestAccount\Domain\Event\InterestPaid;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\InterestRate;
+use App\InterestAccount\Domain\ValueObject\Money;
+use App\InterestAccount\Domain\ValueObject\UserId;
 use DateTimeImmutable;
 use RuntimeException;
 

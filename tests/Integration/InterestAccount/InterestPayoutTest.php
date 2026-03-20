@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Tests\Integration\InterestAccount;
 
-use Chip\InterestAccount\Application\Command\CalculateInterest\CalculateInterestHandler;
-use Chip\InterestAccount\Application\Command\Deposit\DepositHandler;
-use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
-use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
-use Chip\InterestAccount\Domain\Enum\TransactionType;
-use Chip\InterestAccount\Domain\Event\AccountOpened;
-use Chip\InterestAccount\Domain\Event\DepositMade;
-use Chip\InterestAccount\Domain\Event\InterestCalculated;
-use Chip\InterestAccount\Domain\Event\InterestPaid;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
-use Chip\InterestAccount\Infrastructure\EventStore\EventStore;
-use Chip\InterestAccount\Infrastructure\Projector\EventProjector;
-use Chip\InterestAccount\Infrastructure\Repository\AccountRepository;
-use Chip\InterestAccount\Infrastructure\Repository\TransactionRepository;
-use Chip\InterestAccount\Infrastructure\Service\StatsApiClient;
-use Chip\InterestAccount\InterestAccountService;
+use App\InterestAccount\Application\Command\CalculateInterest\CalculateInterestHandler;
+use App\InterestAccount\Application\Command\Deposit\DepositHandler;
+use App\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
+use App\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
+use App\InterestAccount\Domain\Enum\TransactionType;
+use App\InterestAccount\Domain\Event\AccountOpened;
+use App\InterestAccount\Domain\Event\DepositMade;
+use App\InterestAccount\Domain\Event\InterestCalculated;
+use App\InterestAccount\Domain\Event\InterestPaid;
+use App\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Infrastructure\EventStore\EventStore;
+use App\InterestAccount\Infrastructure\Projector\EventProjector;
+use App\InterestAccount\Infrastructure\Repository\AccountRepository;
+use App\InterestAccount\Infrastructure\Repository\TransactionRepository;
+use App\InterestAccount\Infrastructure\Service\StatsApiClient;
+use App\InterestAccount\InterestAccountService;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -43,7 +43,7 @@ final class InterestPayoutTest extends TestCase
                     info: [
                         'http_code' => 200,
                     ]),
-                'https://stats.dev.chip.test/'
+                'https://stats.dev.App.test/'
             ),
         );
         $accountRepository = new AccountRepository();
@@ -166,7 +166,7 @@ final class InterestPayoutTest extends TestCase
                     info: [
                         'http_code' => 200,
                     ]),
-                'https://stats.dev.chip.test/'
+                'https://stats.dev.App.test/'
             ),
         );
         $accountRepository = new AccountRepository();
@@ -247,7 +247,7 @@ final class InterestPayoutTest extends TestCase
                     info: [
                         'http_code' => 200,
                     ]),
-                'https://stats.dev.chip.test/'
+                'https://stats.dev.App.test/'
             ),
         );
         $accountRepository = new AccountRepository();
@@ -329,7 +329,7 @@ final class InterestPayoutTest extends TestCase
                     info: [
                         'http_code' => 200,
                     ]),
-                'https://stats.dev.chip.test/'
+                'https://stats.dev.App.test/'
             ),
         );
         $accountRepository = new AccountRepository();

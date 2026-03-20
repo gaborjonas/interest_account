@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Unit\Application\Query;
 
-use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
-use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementQuery;
-use Chip\InterestAccount\Domain\Exception\AccountNotFoundException;
-use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
-use Chip\InterestAccount\Domain\Repository\TransactionRepositoryInterface;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
+use App\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementQuery;
+use App\InterestAccount\Domain\Exception\AccountNotFoundException;
+use App\InterestAccount\Domain\Repository\AccountRepositoryInterface;
+use App\InterestAccount\Domain\Repository\TransactionRepositoryInterface;
+use App\InterestAccount\Domain\ValueObject\AccountId;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;

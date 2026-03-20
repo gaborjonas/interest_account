@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Projection;
+namespace App\InterestAccount\Domain\Projection;
 
-use Chip\InterestAccount\Domain\Enum\AccountStatus;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Domain\Enum\AccountStatus;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\UserId;
 
 final class Account
 {

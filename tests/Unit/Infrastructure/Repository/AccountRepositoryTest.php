@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Infrastructure\Repository;
 
-use Chip\InterestAccount\Domain\Enum\AccountStatus;
-use Chip\InterestAccount\Domain\Projection\Account;
-use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
-use Chip\InterestAccount\Infrastructure\Repository\AccountRepository;
+use App\InterestAccount\Domain\Enum\AccountStatus;
+use App\InterestAccount\Domain\Projection\Account;
+use App\InterestAccount\Domain\Repository\AccountRepositoryInterface;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Infrastructure\Repository\AccountRepository;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 

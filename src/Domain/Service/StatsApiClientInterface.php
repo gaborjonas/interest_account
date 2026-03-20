@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Service;
+namespace App\InterestAccount\Domain\Service;
 
-use Chip\InterestAccount\Domain\Dto\UserStats;
-use Chip\InterestAccount\Domain\Exception\UserStatisticsException;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Domain\Dto\UserStats;
+use App\InterestAccount\Domain\Exception\UserStatisticsException;
+use App\InterestAccount\Domain\ValueObject\UserId;
 
 interface StatsApiClientInterface
 {

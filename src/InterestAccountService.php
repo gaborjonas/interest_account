@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount;
+namespace App\InterestAccount;
 
-use Chip\InterestAccount\Application\Command\CalculateInterest\CalculateInterestCommand;
-use Chip\InterestAccount\Application\Command\CalculateInterest\CalculateInterestHandler;
-use Chip\InterestAccount\Application\Command\Deposit\DepositCommand;
-use Chip\InterestAccount\Application\Command\Deposit\DepositHandler;
-use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountCommand;
-use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
-use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
-use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementQuery;
-use Chip\InterestAccount\Domain\Exception\DomainException;
-use Chip\InterestAccount\Domain\Projection\Transaction;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\Money;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
-use Chip\InterestAccount\Domain\Aggregate\Account;
+use App\InterestAccount\Application\Command\CalculateInterest\CalculateInterestCommand;
+use App\InterestAccount\Application\Command\CalculateInterest\CalculateInterestHandler;
+use App\InterestAccount\Application\Command\Deposit\DepositCommand;
+use App\InterestAccount\Application\Command\Deposit\DepositHandler;
+use App\InterestAccount\Application\Command\OpenAccount\OpenAccountCommand;
+use App\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
+use App\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
+use App\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementQuery;
+use App\InterestAccount\Domain\Exception\DomainException;
+use App\InterestAccount\Domain\Projection\Transaction;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\Money;
+use App\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Domain\Aggregate\Account;
 use Psr\Clock\ClockInterface;
 
 final readonly class InterestAccountService implements InterestAccountServiceInterface

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Chip\InterestAccount\Infrastructure\Service;
+namespace App\InterestAccount\Infrastructure\Service;
 
-use Chip\InterestAccount\Domain\Dto\UserStats;
-use Chip\InterestAccount\Domain\Exception\MalformedUserStatisticsException;
-use Chip\InterestAccount\Domain\Exception\UserStatisticsException;
-use Chip\InterestAccount\Domain\Service\StatsApiClientInterface;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Domain\Dto\UserStats;
+use App\InterestAccount\Domain\Exception\MalformedUserStatisticsException;
+use App\InterestAccount\Domain\Exception\UserStatisticsException;
+use App\InterestAccount\Domain\Service\StatsApiClientInterface;
+use App\InterestAccount\Domain\ValueObject\UserId;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Throwable;
 

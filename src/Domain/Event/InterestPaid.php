@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Chip\InterestAccount\Domain\Event;
+namespace App\InterestAccount\Domain\Event;
 
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\Money;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\Money;
 
 final readonly class InterestPaid extends DomainEvent
 {

@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Domain\Aggregate;
 
-use Chip\InterestAccount\Domain\Aggregate\Account;
-use Chip\InterestAccount\Domain\Enum\AccountStatus;
-use Chip\InterestAccount\Domain\Event\AccountOpened;
-use Chip\InterestAccount\Domain\Event\DepositMade;
-use Chip\InterestAccount\Domain\Event\DomainEvent;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\InterestRate;
-use Chip\InterestAccount\Domain\ValueObject\Money;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Domain\Aggregate\Account;
+use App\InterestAccount\Domain\Enum\AccountStatus;
+use App\InterestAccount\Domain\Event\AccountOpened;
+use App\InterestAccount\Domain\Event\DepositMade;
+use App\InterestAccount\Domain\Event\DomainEvent;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\InterestRate;
+use App\InterestAccount\Domain\ValueObject\Money;
+use App\InterestAccount\Domain\ValueObject\UserId;
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -81,7 +81,7 @@ final class AccountTest extends TestCase
     public function replayEventsThrowsIfEventIsUnknown(): void
     {
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Unknown event type: Chip\InterestAccount\Domain\Event\DomainEvent@anonymous');
+        $this->expectExceptionMessage('Unknown event type: App\InterestAccount\Domain\Event\DomainEvent@anonymous');
 
         $unknownEvent = new readonly class extends DomainEvent {
             public function getEventName(): string

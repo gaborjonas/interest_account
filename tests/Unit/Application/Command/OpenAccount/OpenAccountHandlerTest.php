@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Unit\Application\Command\OpenAccount;
 
-use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountCommand;
-use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
-use Chip\InterestAccount\Domain\Enum\AccountStatus;
-use Chip\InterestAccount\Domain\EventStore\EventStoreInterface;
-use Chip\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
-use Chip\InterestAccount\Domain\Projection\Account;
-use Chip\InterestAccount\Domain\Projector\EventProjectorInterface;
-use Chip\InterestAccount\Domain\Repository\AccountRepositoryInterface;
-use Chip\InterestAccount\Domain\Service\StatsApiClientInterface;
-use Chip\InterestAccount\Domain\ValueObject\AccountId;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\Application\Command\OpenAccount\OpenAccountCommand;
+use App\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
+use App\InterestAccount\Domain\Enum\AccountStatus;
+use App\InterestAccount\Domain\EventStore\EventStoreInterface;
+use App\InterestAccount\Domain\Exception\UserAlreadyHasAccountException;
+use App\InterestAccount\Domain\Projection\Account;
+use App\InterestAccount\Domain\Projector\EventProjectorInterface;
+use App\InterestAccount\Domain\Repository\AccountRepositoryInterface;
+use App\InterestAccount\Domain\Service\StatsApiClientInterface;
+use App\InterestAccount\Domain\ValueObject\AccountId;
+use App\InterestAccount\Domain\ValueObject\UserId;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\MockObject\Stub;
