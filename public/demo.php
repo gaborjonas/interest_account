@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Chip\InterestAccount\InterestAccountService;
-use Chip\InterestAccount\Application\Command\CalculateInterest\CalculateInterestHandler;
-use Chip\InterestAccount\Application\Command\Deposit\DepositHandler;
-use Chip\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
-use Chip\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
-use Chip\InterestAccount\Infrastructure\EventStore\EventStore;
-use Chip\InterestAccount\Infrastructure\Projector\EventProjector;
-use Chip\InterestAccount\Infrastructure\Repository\AccountRepository;
-use Chip\InterestAccount\Infrastructure\Repository\TransactionRepository;
-use Chip\InterestAccount\Infrastructure\Service\StatsApiClient;
-use Chip\InterestAccount\Domain\ValueObject\UserId;
+use App\InterestAccount\InterestAccountService;
+use App\InterestAccount\Application\Command\CalculateInterest\CalculateInterestHandler;
+use App\InterestAccount\Application\Command\Deposit\DepositHandler;
+use App\InterestAccount\Application\Command\OpenAccount\OpenAccountHandler;
+use App\InterestAccount\Application\Query\ListAccountStatement\ListAccountStatementHandler;
+use App\InterestAccount\Infrastructure\EventStore\EventStore;
+use App\InterestAccount\Infrastructure\Projector\EventProjector;
+use App\InterestAccount\Infrastructure\Repository\AccountRepository;
+use App\InterestAccount\Infrastructure\Repository\TransactionRepository;
+use App\InterestAccount\Infrastructure\Service\StatsApiClient;
+use App\InterestAccount\Domain\ValueObject\UserId;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\Clock\MockClock;
 use Symfony\Component\HttpClient\MockHttpClient;
@@ -151,7 +151,7 @@ function createInterestAccountService(int $monthlyIncome, ClockInterface $clock)
                 info: [
                     'http_code' => 200,
                 ]),
-            'https://stats.dev.chip.test/'
+            'https://app.test/'
         ),
     );
 
